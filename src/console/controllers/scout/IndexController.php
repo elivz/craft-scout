@@ -3,9 +3,11 @@
 namespace rias\scout\console\controllers\scout;
 
 use Craft;
+use craft\helpers\ArrayHelper;
 use craft\helpers\Console;
 use rias\scout\console\controllers\BaseController;
 use rias\scout\engines\Engine;
+use rias\scout\jobs\ImportIndexBatch;
 use rias\scout\Scout;
 use yii\console\ExitCode;
 
@@ -16,9 +18,12 @@ class IndexController extends BaseController
     /** @var bool */
     public $force = false;
 
+    /** @var bool */
+    public $queue = false;
+
     public function options($actionID)
     {
-        return ['force'];
+        return ['force', 'queue'];
     }
 
     public function actionFlush($index = '')
@@ -55,9 +60,19 @@ class IndexController extends BaseController
             );
 
             foreach ($batch as $elements) {
-                $engine->update($elements);
+                if ($this->queue) {
+                    $ids = ArrayHelper::getColumn($elements, 'id');
+                    Craft::$app->getQueue()->push(new ImportIndexBatch([
+                        'indexName' => $engine->scoutIndex->indexName,
+                        'elementIds' => $ids,
+                        'description' => "Indexing {$elementsUpdated}/{$totalElements} element(s) in {$engine->scoutIndex->indexName}",
+                    ]));
+                    $this->stdout("Queued {$elementsUpdated}/{$totalElements} element(s) in {$engine->scoutIndex->indexName}\n", Console::FG_GREEN);
+                } else {
+                    $engine->update($elements);
+                    $this->stdout("Updated {$elementsUpdated}/{$totalElements} element(s) in {$engine->scoutIndex->indexName}\n", Console::FG_GREEN);
+                }
                 $elementsUpdated += count($elements);
-                $this->stdout("Updated {$elementsUpdated}/{$totalElements} element(s) in {$engine->scoutIndex->indexName}\n", Console::FG_GREEN);
             }
         });
 
