@@ -14,6 +14,8 @@ class ImportIndexBatch extends BaseJob
     /** @var int[] */
     public $elementIds;
 
+    protected int $batchSize = 10;
+
     public function execute($queue)
     {
         /** @var Engine $engine */
@@ -25,9 +27,16 @@ class ImportIndexBatch extends BaseJob
             return;
         }
 
-        $elements = $engine->scoutIndex->criteria->id($this->elementIds)->all();
+        $elementsQuery = $engine->scoutIndex->criteria->id($this->elementIds);
 
-        $engine->update($elements);
+        $elementsCount = $elementsQuery->count();
+        $batchCount = ceil($elementsCount / $this->batchSize);
+
+        foreach ($elementsQuery->batch($this->batchSize) as $key => $elements) {
+            $firstElementIndex = $key * $this->batchSize;
+            $this->setProgress($queue, $key / $batchCount, "{$firstElementIndex} of {$elementsCount}");
+            $engine->update($elements);
+        }
     }
 
     protected function defaultDescription()

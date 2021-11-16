@@ -61,6 +61,7 @@ class IndexController extends BaseController
 
             foreach ($batch as $elements) {
                 if ($this->queue) {
+                    $elementsUpdated += count($elements);
                     $ids = ArrayHelper::getColumn($elements, 'id');
                     Craft::$app->getQueue()->push(new ImportIndexBatch([
                         'indexName' => $engine->scoutIndex->indexName,
@@ -71,8 +72,8 @@ class IndexController extends BaseController
                 } else {
                     $engine->update($elements);
                     $this->stdout("Updated {$elementsUpdated}/{$totalElements} element(s) in {$engine->scoutIndex->indexName}\n", Console::FG_GREEN);
+                    $elementsUpdated += count($elements);
                 }
-                $elementsUpdated += count($elements);
             }
         });
 
