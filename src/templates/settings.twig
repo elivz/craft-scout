@@ -48,6 +48,16 @@
     warning: 'batch_size' in overrides ? configWarning('batch_size'),
 }) }}
 
+{{ forms.textfield({
+    label: 'Queue job ttr',
+    name: 'queue_job_ttr',
+    type: 'number',
+    instructions: 'Number of seconds to allow for processing each batch when run in a queue job.',
+    value: settings.batch_size,
+    disabled: 'queue_job_ttr' in overrides,
+    warning: 'queue_job_ttr' in overrides ? configWarning('queue_job_ttr'),
+}) }}
+
 {{ forms.autosuggestfield({
     label: 'Application ID',
     name: 'application_id',

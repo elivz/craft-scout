@@ -52,6 +52,11 @@ return [
      * The batch size Scout uses when importing a large amount of elements
      */
     'batch_size' => 1000,
+
+    /*
+     * Number of seconds to allow for processing each batch when run in a queue job
+     */
+    'queue_job_ttr' => 900,
     
     /*
      * By default Scout will index elements related to the element being save (that are in the same index). 

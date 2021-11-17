@@ -14,7 +14,7 @@ class ImportIndexBatch extends BaseJob
     /** @var int[] */
     public $elementIds;
 
-    protected int $batchSize = 10;
+    protected $batchSize = 10;
 
     public function execute($queue)
     {

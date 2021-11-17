@@ -50,9 +50,11 @@ class IndexController extends BaseController
     {
         $engines = Scout::$plugin->getSettings()->getEngines();
 
+        $queueJobTtr = Scout::$plugin->getSettings()->queue_job_ttr;
+
         $engines->filter(function (Engine $engine) use ($index) {
             return $index === '' || $engine->scoutIndex->indexName === $index;
-        })->each(function (Engine $engine) {
+        })->each(function (Engine $engine) use ($queueJobTtr) {
             $totalElements = $engine->scoutIndex->criteria->count();
             $elementsUpdated = 0;
             $batch = $engine->scoutIndex->criteria->batch(
@@ -63,11 +65,13 @@ class IndexController extends BaseController
                 if ($this->queue) {
                     $elementsUpdated += count($elements);
                     $ids = ArrayHelper::getColumn($elements, 'id');
-                    Craft::$app->getQueue()->push(new ImportIndexBatch([
-                        'indexName' => $engine->scoutIndex->indexName,
-                        'elementIds' => $ids,
-                        'description' => "Indexing {$elementsUpdated}/{$totalElements} element(s) in {$engine->scoutIndex->indexName}",
-                    ]));
+                    Craft::$app->getQueue()
+                        ->ttr($queueJobTtr)
+                        ->push(new ImportIndexBatch([
+                            'indexName' => $engine->scoutIndex->indexName,
+                            'elementIds' => $ids,
+                            'description' => "Indexing {$elementsUpdated}/{$totalElements} element(s) in {$engine->scoutIndex->indexName}",
+                        ]));
                     $this->stdout("Queued {$elementsUpdated}/{$totalElements} element(s) in {$engine->scoutIndex->indexName}\n", Console::FG_GREEN);
                 } else {
                     $engine->update($elements);
