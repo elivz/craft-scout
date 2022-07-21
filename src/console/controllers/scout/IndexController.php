@@ -50,8 +50,6 @@ class IndexController extends BaseController
     {
         $engines = Scout::$plugin->getSettings()->getEngines();
 
-        $queueJobTtr = Scout::$plugin->getSettings()->queue_job_ttr;
-
         $engines->filter(function (Engine $engine) use ($index) {
             return $index === '' || $engine->scoutIndex->indexName === $index;
         })->each(function (Engine $engine) {
