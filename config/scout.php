@@ -28,6 +28,18 @@ return [
     'queue' => true,
 
     /*
+     * If queue is enabled, you can override the default time-to-reserve a job.
+     * https://www.yiiframework.com/extension/yiisoft/yii2-queue/doc/api/2.0/yii-queue-queue#$ttr-detail
+     */
+    'ttr' => 300,
+
+    /*
+     * If queue is enabled, you can override the default priority for a job.
+     * https://www.yiiframework.com/extension/yiisoft/yii2-queue/doc/api/2.0/yii-queue-queue#priority()-detail
+     */
+    'priority' => 1024,
+
+    /*
      * The connection timeout (in seconds), increase this only if necessary
      */
     'connect_timeout' => 1,
@@ -62,4 +74,13 @@ return [
      * index should define an ElementType, criteria and a transformer.
      */
     'indices'       => [],
+
+    /**
+     * Elements can create multiple records by using `splitElementsOn()`,
+     * which split the element on specified array values. If the array has just one item,
+     * no splitting occurs. The legacy and default behavior is to simply use the
+     * original, unchanged record, which means the value is still wrapped in an array.
+     * Make this false to use the single item itself.
+     */
+    'useOriginalRecordIfSplitValueIsArrayOfOne' => true,
 ];

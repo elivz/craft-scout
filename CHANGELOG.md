@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.7.2 - 2022-03-22
+## Added
+- Added `renderingContent` to `IndexSettings` ([#230](https://github.com/studioespresso/craft-scout/issues/230) & [#231](https://github.com/studioespresso/craft-scout/pull/231) - thanks [@joshuabaker](https://github.com/joshuabaker))
+
+## 2.7.1 - 2022-03-21
+### Added
+- ``scout/index/import`` now optionally takes a ``--queue=1`` parameter to run the import(s) through the queue instead running them straigt away. 
+
+
+## 2.7.0 - 2022-03-13
+### Added
+- Added a config setting to keep using the orginal object in case ``splittedObjects`` only contains 1 item. ([#193](https://github.com/studioespresso/craft-scout/issues/193) & [#219](https://github.com/studioespresso/craft-scout/pull/219), thanks [@gregkohn](https://github.com/gregkohn)) 
+
+## 2.6.1 - 2021-12-21
+### Fixed
+- MakeSearchable job now uses the index criteria ([#177](https://github.com/studioespresso/craft-scout/pull/177))
+- Disable relations on delete if so configured, should improve performance on larger installs ([#227](https://github.com/studioespresso/craft-scout/pull/227))
+
+## 2.6.0 - 2021-12-06
+### Added
+- Added support for PHP 8.x
+- Added support for algolia/algoliasearch-client-php 3.x
+
 ## 2.5.0 - 2021-10-07
 ### Added
 - Added ``indexRelations`` config setting (true by default) ([#175](https://github.com/studioespresso/craft-scout/pull/175) & [#205](https://github.com/studioespresso/craft-scout/issues/205))
