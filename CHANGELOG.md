@@ -2,6 +2,42 @@
 
 All notable changes to this project will be documented in this file.
 
+## 3.2.0 - 2023-09-16
+### Added
+- This release adds lazy loading of the index's criteria function, to try and migigate "behaviour not found" errors ([#268](https://github.com/studioespresso/craft-scout/pull/268))
+
+## 3.1.3 - 2023-09-10
+### Fixed
+- Indexing jobs now run for every site ([#266](https://github.com/studioespresso/craft-scout/issues/266)) 
+- Use priority & ttr settings for all queue jobs ([#271](https://github.com/studioespresso/craft-scout/issues/271))
+- Updated license to be MIT everywhere ([#272](https://github.com/studioespresso/craft-scout/issues/272))
+- Fixed tests ([#263](https://github.com/studioespresso/craft-scout/issues/263))
+
+## 3.1.2 - 2023-06-09
+### Fixed
+- Fixed missing return types in IndexElement & DeIndexElement jobs
+
+## 3.1.1 - 2023-06-08
+### Added
+- Futher improvements to prevent scout from being initialized before Craft is ready ([#262](https://github.com/studioespresso/craft-scout/pull/262))
+
+
+## 3.1.0 - 2023-02-15
+### Added
+- Scout now requires craft 4.3.5 (see [#249](https://github.com/studioespresso/craft-scout/issues/249))
+
+### Fixed
+- Fixed an issue where Element querries would fire before Scout was loaded ([#249](https://github.com/studioespresso/craft-scout/issues/249))
+- Fixed a UI issue with button spacing on the utility screen ([#245](https://github.com/studioespresso/craft-scout/issues/245))
+
+## 3.0.0 - 2022-05-03
+### Added
+- Craft 4 🚀
+
+## 3.0.0-beta.1 - 2022-03-02
+### Added
+- Craft CMS 4 compatibility
+
 ## 2.7.2 - 2022-03-22
 ## Added
 - Added `renderingContent` to `IndexSettings` ([#230](https://github.com/studioespresso/craft-scout/issues/230) & [#231](https://github.com/studioespresso/craft-scout/pull/231) - thanks [@joshuabaker](https://github.com/joshuabaker))
@@ -14,6 +50,7 @@ All notable changes to this project will be documented in this file.
 ## 2.7.0 - 2022-03-13
 ### Added
 - Added a config setting to keep using the orginal object in case ``splittedObjects`` only contains 1 item. ([#193](https://github.com/studioespresso/craft-scout/issues/193) & [#219](https://github.com/studioespresso/craft-scout/pull/219), thanks [@gregkohn](https://github.com/gregkohn)) 
+
 
 ## 2.6.1 - 2021-12-21
 ### Fixed
